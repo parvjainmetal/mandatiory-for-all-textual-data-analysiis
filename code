@@ -1,0 +1,1305 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Chunking, Sentence Parse, and Dependencies.ipynb",
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "xsA65XUyoTuo"
+      },
+      "source": [
+        "import nltk\n",
+        "text = \"Lalbagh Botanical Gardens is a well known botanical garden in Bengaluru, India.\""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "7RvN4zwwq9II",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 67
+        },
+        "outputId": "1322450b-828a-433e-9eb8-fca8f274e2ee"
+      },
+      "source": [
+        "nltk.download('punkt')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[nltk_data] Downloading package punkt to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping tokenizers/punkt.zip.\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 2
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "0v4wsTm0qxca"
+      },
+      "source": [
+        "sentences = nltk.sent_tokenize(text)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "BnaUHmYiqxay"
+      },
+      "source": [
+        "for sentence in sentences:\n",
+        "  words = nltk.word_tokenize(sentence)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "3dH_Wz4WrqH9",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 84
+        },
+        "outputId": "ea95cbd7-630c-44f6-9740-a633aa2385cb"
+      },
+      "source": [
+        "nltk.download('averaged_perceptron_tagger')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[nltk_data] Downloading package averaged_perceptron_tagger to\n",
+            "[nltk_data]     /root/nltk_data...\n",
+            "[nltk_data]   Unzipping taggers/averaged_perceptron_tagger.zip.\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 5
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "AdXvnsH6qxZF"
+      },
+      "source": [
+        "tags = nltk.pos_tag(words)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sDaVoPdYqxXZ"
+      },
+      "source": [
+        "##ne_chunk() function, which does the chunking part for us"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sa9fQ-h3sHuD",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 118
+        },
+        "outputId": "4335331d-8aa7-4b8a-9429-7d5f564210fc"
+      },
+      "source": [
+        "nltk.download('maxent_ne_chunker')\n",
+        "nltk.download('words')\n"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[nltk_data] Downloading package maxent_ne_chunker to\n",
+            "[nltk_data]     /root/nltk_data...\n",
+            "[nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.\n",
+            "[nltk_data] Downloading package words to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping corpora/words.zip.\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Vs_DFvjiqxVO"
+      },
+      "source": [
+        "chunks = nltk.ne_chunk(tags)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "VcUWpGY6qxTH",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 252
+        },
+        "outputId": "4821fcd8-1445-450e-bce4-24226086a3c8"
+      },
+      "source": [
+        "print(chunks)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "(S\n",
+            "  (PERSON Lalbagh/NNP)\n",
+            "  (PERSON Botanical/NNP Gardens/NNP)\n",
+            "  is/VBZ\n",
+            "  a/DT\n",
+            "  well/RB\n",
+            "  known/VBN\n",
+            "  botanical/JJ\n",
+            "  garden/NN\n",
+            "  in/IN\n",
+            "  (GPE Bengaluru/NNP)\n",
+            "  ,/,\n",
+            "  (GPE India/NNP)\n",
+            "  ./.)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "FUZfsMbTqxQu"
+      },
+      "source": [
+        "import nltk\n",
+        "text = \"Ravi is the CEO of a Company. He is very powerful public speaker also.\""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XzUX4sX7qxOb"
+      },
+      "source": [
+        "grammar = '\\n'.join([\n",
+        "'NP: {<DT>*<NNP>}',\n",
+        "'NP: {<JJ>*<NN>}',\n",
+        "'NP: {<NNP>+}',\n",
+        "])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "FKhZK0piqxLa"
+      },
+      "source": [
+        "sentences = nltk.sent_tokenize(text)\n",
+        "for sentence in sentences:\n",
+        "  words = nltk.word_tokenize(sentence)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XchqU0ejqxI6"
+      },
+      "source": [
+        "tags = nltk.pos_tag(words)\n",
+        "chunkparser = nltk.RegexpParser(grammar)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sInm0UfYqxGU",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 134
+        },
+        "outputId": "f1e551fa-faad-4736-f80f-a8c10567dbaa"
+      },
+      "source": [
+        "chunkparser = nltk.RegexpParser(grammar)\n",
+        "result = chunkparser.parse(tags)\n",
+        "print(result)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "(S\n",
+            "  He/PRP\n",
+            "  is/VBZ\n",
+            "  very/RB\n",
+            "  (NP powerful/JJ public/JJ speaker/NN)\n",
+            "  also/RB\n",
+            "  ./.)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "CjKn5Q8zqxDu"
+      },
+      "source": [
+        "import nltk\n",
+        "from nltk.corpus import conll2000\n",
+        "from nltk.corpus import treebank_chunk"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "yb9olw3CqxAr"
+      },
+      "source": [
+        "def mySimpleChunker():\n",
+        "  grammar = 'NP: {<NNP>+}'\n",
+        "  return nltk.RegexpParser(grammar)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QVxdWv-pqw5u"
+      },
+      "source": [
+        "def test_nothing(data):\n",
+        "  cp = nltk.RegexpParser(\"\")\n",
+        "  print(cp.evaluate(data))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_RZ25ovU7Phu"
+      },
+      "source": [
+        "def test_mysimplechunker(data):\n",
+        "  schunker = mySimpleChunker()\n",
+        "  print(schunker.evaluate(data))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ozmawTsk7jew",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 67
+        },
+        "outputId": "b9b235be-88c0-4e87-fc13-3bbb8807446b"
+      },
+      "source": [
+        "nltk.download('conll2000')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[nltk_data] Downloading package conll2000 to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping corpora/conll2000.zip.\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 20
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-tdz63zT7-jA",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 67
+        },
+        "outputId": "12e0b8e1-f796-464a-80ef-9b612a38371f"
+      },
+      "source": [
+        "nltk.download('treebank')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[nltk_data] Downloading package treebank to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping corpora/treebank.zip.\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "NW5rjxBT7PeG"
+      },
+      "source": [
+        "datasets = [\n",
+        "conll2000.chunked_sents('test.txt', chunk_types=['NP']),\n",
+        "treebank_chunk.chunked_sents()\n",
+        "]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "UGGSWN5K7PcT",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 386
+        },
+        "outputId": "8de6cc51-e8e9-4e7d-d76d-7491841309e6"
+      },
+      "source": [
+        "for dataset in datasets:\n",
+        "  test_nothing(dataset[:50])\n",
+        "  test_mysimplechunker(dataset[:50])"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "ChunkParse score:\n",
+            "    IOB Accuracy:  38.6%%\n",
+            "    Precision:      0.0%%\n",
+            "    Recall:         0.0%%\n",
+            "    F-Measure:      0.0%%\n",
+            "ChunkParse score:\n",
+            "    IOB Accuracy:  48.2%%\n",
+            "    Precision:     71.1%%\n",
+            "    Recall:        17.2%%\n",
+            "    F-Measure:     27.7%%\n",
+            "ChunkParse score:\n",
+            "    IOB Accuracy:  45.0%%\n",
+            "    Precision:      0.0%%\n",
+            "    Recall:         0.0%%\n",
+            "    F-Measure:      0.0%%\n",
+            "ChunkParse score:\n",
+            "    IOB Accuracy:  50.7%%\n",
+            "    Precision:     51.9%%\n",
+            "    Recall:         8.8%%\n",
+            "    F-Measure:     15.1%%\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "stream",
+          "text": [
+            "/usr/local/lib/python3.6/dist-packages/nltk/tokenize/regexp.py:123: FutureWarning: split() requires a non-empty pattern match.\n",
+            "  return [tok for tok in self._regexp.split(text) if tok]\n"
+          ],
+          "name": "stderr"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "UNNTrEVE7Pa7"
+      },
+      "source": [
+        "##Parsing recursive descent\n",
+        "##Recursive descent parsers belong to the family of parsers that read the input from left to\n",
+        "##right and build the parse tree in a top-down fashion and traversing nodes in a pre-order\n",
+        "##fashion. Since the grammar itself is expressed using CFG methodology, the parsing is\n",
+        "##recursive in nature. This kind of parsing technique is used to build compilers for parsing\n",
+        "##instructions of programming languages"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "HVrmktjt7PaM"
+      },
+      "source": [
+        "import nltk\n",
+        "def RDParserExample(grammar, textlist):\n",
+        "  parser = nltk.parse.RecursiveDescentParser(grammar)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "7Y3KCYsG-CBt"
+      },
+      "source": [
+        "text = [\n",
+        "\"Tajmahal is in Agra\",\n",
+        "\"Bangalore is the capital of Karnataka\",\n",
+        "]\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DHfcfiP6FuJ5"
+      },
+      "source": [
+        "textlist = [\"Tajmahal is in Agra\",\n",
+        "\"Bangalore is the capital of Karnataka\",]\n",
+        "\n",
+        "sentence = [\"Tajmahal is in Agra\",\n",
+        "\"Bangalore is the capital of Karnataka\"]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "nwY45zPw7PZU",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 229
+        },
+        "outputId": "f5c8d093-90e5-4f98-e0a6-5bc7a4a910e0"
+      },
+      "source": [
+        "for text in textlist:\n",
+        "  sentence = nltk.word_tokenize(text)\n",
+        "  for tree in parser.parse(sentence):\n",
+        "    print(tree)\n",
+        "    tree.draw()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "NameError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-29-919babf33451>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mtext\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mtextlist\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m   \u001b[0msentence\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mnltk\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mword_tokenize\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtext\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m   \u001b[0;32mfor\u001b[0m \u001b[0mtree\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mparser\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mparse\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msentence\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      4\u001b[0m     \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtree\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m     \u001b[0mtree\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdraw\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mNameError\u001b[0m: name 'parser' is not defined"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZpGmt99s7PUX"
+      },
+      "source": [
+        "##Parsing shift-reduce\n",
+        "##Shift-reduce parsers are special types of parsers that parse the input text from left to right on a single line sentences and top to bottom on multiline sentences.\n",
+        "##For every alphabet/token in the input text, this is how parsing happens:\n",
+        "##Read the first token from the input text and push it to the stack (shift operation)\n",
+        "##Read the complete parse tree on the stack and see which production rule can be\n",
+        "##applied, by reading the production rule from right to left (reduce operation)\n",
+        "##This process is repeated until we run out of production rules, when we accept that parsing has failed\n",
+        "##This process is repeated until all of the input is consumed; we say parsing has succeeded"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "cgWtaDfTGDlh"
+      },
+      "source": [
+        "import nltk\n",
+        "def RDParserExample(grammar, textlist):\n",
+        "  parser = nltk.parse.RecursiveDescentParser(grammar)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Qo6ANWOAGDut"
+      },
+      "source": [
+        "for text in textlist:\n",
+        "  sentence = nltk.word_tokenize(text)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "7YCHePKOGzCu"
+      },
+      "source": [
+        "from parser import *"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "o83QjheDG5F6",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 50
+        },
+        "outputId": "ac9f72de-7399-4fcb-c7c3-69441553e202"
+      },
+      "source": [
+        "nltk.download('parser')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[nltk_data] Error loading parser: Package 'parser' not found in index\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "False"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 34
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "TOFVue1XGfx8",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 178
+        },
+        "outputId": "ff00d871-e377-4e87-e2ae-3e1e08517916"
+      },
+      "source": [
+        "for tree in parser.parse(sentence):\n",
+        "  print(tree)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "NameError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-36-afc377b60128>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32mfor\u001b[0m \u001b[0mtree\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mparser\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mparse\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msentence\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m   \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtree\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mNameError\u001b[0m: name 'parser' is not defined"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_QMEHVmEHDkK"
+      },
+      "source": [
+        "grammar = nltk.CFG.fromstring(\"\"\"\n",
+        "S -> NP VP\n",
+        "NP -> NNP VBZ\n",
+        "VP -> IN NNP | DT NN IN NNP\n",
+        "NNP -> 'Tajmahal' | 'Agra' | 'Bangalore' | 'Karnataka'\n",
+        "VBZ -> 'is'\n",
+        "IN -> 'in' | 'of'\n",
+        "DT -> 'the'\n",
+        "NN -> 'capital'\n",
+        "\"\"\")"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "X3sur1wXHEZM"
+      },
+      "source": [
+        "text = [\n",
+        "\"Tajmahal is in Agra\",\n",
+        "\"Bangalore is the capital of Karnataka\",\n",
+        "]\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "FBJcXqBnHEVz"
+      },
+      "source": [
+        "RDParserExample(grammar, text)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "M06av46aHEUK"
+      },
+      "source": [
+        "grammar = nltk.grammar.DependencyGrammar.fromstring(\"\"\"\n",
+        "'savings' -> 'small'\n",
+        "'yield' -> 'savings'\n",
+        "'gains' -> 'large'\n",
+        "'yield' -> 'gains'\n",
+        "\"\"\")"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "xswntqChInQF"
+      },
+      "source": [
+        "sentence = 'small savings yield large gains'"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_nZKskKrIp3w"
+      },
+      "source": [
+        "dp = nltk.parse.ProjectiveDependencyParser(grammar)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "T5gv3Q-HIp-O",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        },
+        "outputId": "824a42a4-4f38-4347-adad-1a91d2a4d0eb"
+      },
+      "source": [
+        "for t in sorted(dp.parse(sentence.split())):\n",
+        "  print(t)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "(yield (savings small) (gains large))\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wxWAXgAqIpQL"
+      },
+      "source": [
+        "from nltk.grammar import CFG"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "oZkZdab-InNO"
+      },
+      "source": [
+        "from nltk.parse.chart import ChartParser, BU_LC_STRATEGY"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "AAq5dGvkInJx"
+      },
+      "source": [
+        "grammar = CFG.fromstring(\"\"\"\n",
+        "S -> T1 T4\n",
+        "T1 -> NNP VBZ\n",
+        "T2 -> DT NN\n",
+        "T3 -> IN NNP\n",
+        "T4 -> T3 | T2 T3\n",
+        "NNP -> 'Tajmahal' | 'Agra' | 'Bangalore' | 'Karnataka'\n",
+        "VBZ -> 'is'\n",
+        "IN -> 'in' | 'of'\n",
+        "DT -> 'the'\n",
+        "NN -> 'capital'\n",
+        "\"\"\")"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ynJ9Uu2NHDXq"
+      },
+      "source": [
+        "cp = ChartParser(grammar, BU_LC_STRATEGY, trace=True)\n",
+        "sentence = \"Bangalore is the capital of Karnataka\""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "b4o_L6P0M51P"
+      },
+      "source": [
+        "tokens = sentence.split()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "OOebK550M5xV",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 437
+        },
+        "outputId": "b500f88a-e167-4a74-c128-43d01fca453a"
+      },
+      "source": [
+        "chart = cp.chart_parse(tokens)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "|.Bangal.  is  . the  .capita.  of  .Karnat.|\n",
+            "|[------]      .      .      .      .      .| [0:1] 'Bangalore'\n",
+            "|.      [------]      .      .      .      .| [1:2] 'is'\n",
+            "|.      .      [------]      .      .      .| [2:3] 'the'\n",
+            "|.      .      .      [------]      .      .| [3:4] 'capital'\n",
+            "|.      .      .      .      [------]      .| [4:5] 'of'\n",
+            "|.      .      .      .      .      [------]| [5:6] 'Karnataka'\n",
+            "|[------]      .      .      .      .      .| [0:1] NNP -> 'Bangalore' *\n",
+            "|[------>      .      .      .      .      .| [0:1] T1 -> NNP * VBZ\n",
+            "|.      [------]      .      .      .      .| [1:2] VBZ -> 'is' *\n",
+            "|[-------------]      .      .      .      .| [0:2] T1 -> NNP VBZ *\n",
+            "|[------------->      .      .      .      .| [0:2] S  -> T1 * T4\n",
+            "|.      .      [------]      .      .      .| [2:3] DT -> 'the' *\n",
+            "|.      .      [------>      .      .      .| [2:3] T2 -> DT * NN\n",
+            "|.      .      .      [------]      .      .| [3:4] NN -> 'capital' *\n",
+            "|.      .      [-------------]      .      .| [2:4] T2 -> DT NN *\n",
+            "|.      .      [------------->      .      .| [2:4] T4 -> T2 * T3\n",
+            "|.      .      .      .      [------]      .| [4:5] IN -> 'of' *\n",
+            "|.      .      .      .      [------>      .| [4:5] T3 -> IN * NNP\n",
+            "|.      .      .      .      .      [------]| [5:6] NNP -> 'Karnataka' *\n",
+            "|.      .      .      .      .      [------>| [5:6] T1 -> NNP * VBZ\n",
+            "|.      .      .      .      [-------------]| [4:6] T3 -> IN NNP *\n",
+            "|.      .      .      .      [-------------]| [4:6] T4 -> T3 *\n",
+            "|.      .      [---------------------------]| [2:6] T4 -> T2 T3 *\n",
+            "|[=========================================]| [0:6] S  -> T1 T4 *\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "TPUoqzHAM5v3"
+      },
+      "source": [
+        "parses = list(chart.parses(grammar.start()))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "tal1h1DdM5sP",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        },
+        "outputId": "4177706d-825c-479d-e61e-b07692b071e5"
+      },
+      "source": [
+        "print(\"Total Edges :\", len(chart.edges()))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Total Edges : 24\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "NN_V-6o-NqyZ",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 67
+        },
+        "outputId": "d440cfef-4cca-4208-f6f9-5aafcd75a72f"
+      },
+      "source": [
+        "for tree in parses: print(tree)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "(S\n",
+            "  (T1 (NNP Bangalore) (VBZ is))\n",
+            "  (T4 (T2 (DT the) (NN capital)) (T3 (IN of) (NNP Karnataka))))\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ocZjv4Szlpmz"
+      },
+      "source": [
+        "import nltk"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "56MLUFcxlniQ"
+      },
+      "source": [
+        "def sampleNE():\n",
+        "  sent = nltk.corpus.treebank.tagged_sents()[0]\n",
+        "  print(nltk.ne_chunk(sent))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "qqEvlXxVlnhS"
+      },
+      "source": [
+        "def sampleNE2():\n",
+        "  sent = nltk.corpus.treebank.tagged_sents()[0]\n",
+        "  print(nltk.ne_chunk(sent, binary=True))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DhrfI5uWlnfu",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 638
+        },
+        "outputId": "5d5b92c5-c568-411b-839e-df983cf70f73"
+      },
+      "source": [
+        "if __name__ == '__main__':\n",
+        "  sampleNE()\n",
+        "  sampleNE2()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "(S\n",
+            "  (PERSON Pierre/NNP)\n",
+            "  (ORGANIZATION Vinken/NNP)\n",
+            "  ,/,\n",
+            "  61/CD\n",
+            "  years/NNS\n",
+            "  old/JJ\n",
+            "  ,/,\n",
+            "  will/MD\n",
+            "  join/VB\n",
+            "  the/DT\n",
+            "  board/NN\n",
+            "  as/IN\n",
+            "  a/DT\n",
+            "  nonexecutive/JJ\n",
+            "  director/NN\n",
+            "  Nov./NNP\n",
+            "  29/CD\n",
+            "  ./.)\n",
+            "(S\n",
+            "  (NE Pierre/NNP Vinken/NNP)\n",
+            "  ,/,\n",
+            "  61/CD\n",
+            "  years/NNS\n",
+            "  old/JJ\n",
+            "  ,/,\n",
+            "  will/MD\n",
+            "  join/VB\n",
+            "  the/DT\n",
+            "  board/NN\n",
+            "  as/IN\n",
+            "  a/DT\n",
+            "  nonexecutive/JJ\n",
+            "  director/NN\n",
+            "  Nov./NNP\n",
+            "  29/CD\n",
+            "  ./.)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5fywtQ8FlneO"
+      },
+      "source": [
+        "import nltk\n",
+        "class LearningDictionary():\n",
+        "  def __init__(self, sentence):\n",
+        "    self.words = nltk.word_tokenize(sentence)\n",
+        "    self.tagged = nltk.pos_tag(self.words)\n",
+        "    self.buildDictionary()\n",
+        "    self.buildReverseDictionary()\n",
+        "    \n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "e37_w-0KmcVj"
+      },
+      "source": [
+        "def buildDictionary(self):\n",
+        "  self.dictionary = {}\n",
+        "  self.buildReverseDictionary()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9J8QZaqlmbyv"
+      },
+      "source": [
+        "def buildDictionary(self):\n",
+        "  self.dictionary = {}\n",
+        "  for (word, pos) in self.tagged:\n",
+        "    self.dictionary[word] = pos\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "KSm3V9gpmbwK"
+      },
+      "source": [
+        "def buildReverseDictionary(self):\n",
+        "  self.rdictionary = {}\n",
+        "  for key in self.dictionary.keys():\n",
+        "    value = self.dictionary[key]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rbpvueRHlnRV",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 212
+        },
+        "outputId": "9774cd88-c1a5-4e2d-ed78-dfdda481f226"
+      },
+      "source": [
+        "if value not in self.rdictionary:\n",
+        "  self.rdictionary[value] = [Test]\n",
+        "else:\n",
+        "    self.rdictionary[value].append(key)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "NameError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-65-038177b2a7de>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32mif\u001b[0m \u001b[0mvalue\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mrdictionary\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m   \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mrdictionary\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mvalue\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m[\u001b[0m\u001b[0mTest\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m     \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mrdictionary\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mvalue\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mappend\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mkey\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mNameError\u001b[0m: name 'value' is not defined"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "dKZhCt1zqmEZ"
+      },
+      "source": [
+        "def isWordPresent(self, word):\n",
+        "  return 'Yes' if word in self.dictionary else 'No'"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "HAADqT3kqwfL"
+      },
+      "source": [
+        "def getPOSForWord(self, word):\n",
+        "  return self.dictionary[word] if word in self.dictionary else None"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "95w_N54mqwbj"
+      },
+      "source": [
+        "def getWordsForPOS(self, pos):\n",
+        "  return self.rdictionary[pos] if pos in self.rdictionary else None"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "KLyAWEZZrdhC"
+      },
+      "source": [
+        "sentence = \"All the flights got delayed due to bad weather\""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-atLSeHLrdAu",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 279
+        },
+        "outputId": "9884bdf1-bd38-430c-adf2-850a7e8ebc7f"
+      },
+      "source": [
+        "learning = LearningDictionary(sentence)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "AttributeError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mAttributeError\u001b[0m                            Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-71-3b48ddfb902e>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mlearning\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mLearningDictionary\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msentence\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;32m<ipython-input-57-ce3daba4faeb>\u001b[0m in \u001b[0;36m__init__\u001b[0;34m(self, sentence)\u001b[0m\n\u001b[1;32m      4\u001b[0m     \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwords\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mnltk\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mword_tokenize\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msentence\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m     \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtagged\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mnltk\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mpos_tag\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwords\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 6\u001b[0;31m     \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mbuildDictionary\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      7\u001b[0m     \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mbuildReverseDictionary\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      8\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mAttributeError\u001b[0m: 'LearningDictionary' object has no attribute 'buildDictionary'"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2g-85pTKrc-E"
+      },
+      "source": [
+        "pos = [\"NN\", \"VBS\", \"NNS\"]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "0gS1z3hjrc7u"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GFUwSi5wrc5G"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
